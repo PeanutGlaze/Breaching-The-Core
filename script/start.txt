@@ -1,0 +1,9 @@
+@FLAG1
+Du stehst vor einem dunklen Wald.
+Willst du hineingehen? (yes/no)
+@CHOICE
+@YES script/forest.txt @FLAG1
+@NO script/village.txt @FLAG1
+
+@FLAG2
+Du hast dich entschieden weiterzuziehen und kommst an ein Dorf.
