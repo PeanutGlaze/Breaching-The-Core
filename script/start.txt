@@ -1,9 +1,12 @@
 @FLAG1
-Du stehst vor einem dunklen Wald.
-Willst du hineingehen? (yes/no)
-@CHOICE
-@YES script/forest.txt @FLAG1
-@NO script/village.txt @FLAG1
-
-@FLAG2
-Du hast dich entschieden weiterzuziehen und kommst an ein Dorf.
+K > Hi! Welcome to my little world!
+K > I'm happy to see another person play my game.
+K > I've never seen you around here, though...
+K > Let me just read your name from your operating system...
+K > Oh, it seems like I can't access it. That's odd.
+K > I can't remember my name, actually, so I guess that makes it fair, right?
+K > Well... How about we start my little game?
+K > You surely wouldn't want to miss out on that, so let's just start!
+K > When you have to make a decision, make sure to watch out for capitalization.
+K > Oh, and one more thing: You can save at (almost) any point by typing 'S'!
+@JUMP script/forest.txt @FLAG1

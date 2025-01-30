@@ -1,2 +1,29 @@
 @FLAG1
-forest
+~ You are now standing in front of a dense forest. Behind you, there is a village. ~
+~ Would you like to enter the forest? ~
+~ Choice: (Yes / No) ~
+@CHOICE
+@YES script/forest.txt @FLAG2
+@NO script/village.txt @FLAG1
+
+@FLAG2
+~ You decide to enter the forest ~
+~ You walk slowly, as the ground is quite uneven ~
+~ The bushes beside the path make it hard to leave the path ~
+~ Shortly, you find yourself standing in front of a big tree-stump and branching paths ~
+~ There is a sign on the tree-stump telling the directions ~
+~ One sign points toward west, depicting a butterfly ~
+~ Another points toward east, depicting a skull ~
+~ There is also still the option to turn back south ~
+~ Choice: (East / South / West) ~
+@DIRECTION
+@NORTH NULL NULL
+@EAST script/forest.txt @FLAG20
+@SOUTH script/forest.txt @FLAG1
+@WEST script/forest.txt @FLAG10
+
+@FLAG10
+~ You walked west ~
+
+@FLAG20
+~ You walked east ~

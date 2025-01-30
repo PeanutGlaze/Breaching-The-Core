@@ -6,7 +6,7 @@
 
 #include "header.h"
 
-void file_reader(char* path, char* flag)
+void file_reader(const char* path, const char* flag)
 {
   FILE* file = fopen(path, "r");
   char line[256];
@@ -28,6 +28,16 @@ void file_reader(char* path, char* flag)
 
       //Stopping the reader if there's another flag detected:
       else if(strncmp(line, "@FLAG", 5) == 0) { break; }
+      // ^ Technically this line should never be used though
+
+      //Making the reader jump to another flag
+      else if(strncmp(line, "@JUMP", 5) == 0)
+      {
+        char new_path[128];
+        char new_flag[128];
+        sscanf(line, "@JUMP %s %s", new_path, new_flag);
+        file_reader(new_path, new_flag);
+      }
 
       //Handling a yes/no decision if it comes up:
       else if(strncmp(line, "@CHOICE", 7) == 0)
@@ -51,15 +61,65 @@ void file_reader(char* path, char* flag)
           char* choice = read_input();
           puts("");
 
-          if(strncmp(choice, "Yes", 3) == 0 || strncmp(choice, "yes", 3) == 0)
+          if(strncmp(choice, "Yes", 3) == 0)
           { valid_answer = true; file_reader(yes_path, yes_flag); }
 
-          else if(strncmp(choice, "No", 2) == 0 && strncmp(choice, "no", 2) == 0)
+          else if(strncmp(choice, "No", 2) == 0)
           { valid_answer = true; file_reader(no_path, no_flag); }
 
           else
           { printf("Your answer was invalid, please try again.\n\n"); }
         }
+        break;
+      }
+
+      //Handling a decision with up to four cardinal directions:
+      else if(strncmp(line, "@DIRECTION", 10) == 0)
+      {
+        //Getting the paths and the flags of the different directions:
+        char north_path[128];
+        char north_flag[128];
+        fgets(line, sizeof(line), file);
+        sscanf(line, "@NORTH %s %s", north_path, north_flag);
+
+        char east_path[128];
+        char east_flag[128];
+        fgets(line, sizeof(line), file);
+        sscanf(line, "@EAST %s %s", east_path, east_flag);
+
+        char south_path[128];
+        char south_flag[128];
+        fgets(line, sizeof(line), file);
+        sscanf(line, "@SOUTH %s %s", south_path, south_flag);
+
+        char west_path[128];
+        char west_flag[128];
+        fgets(line, sizeof(line), file);
+        sscanf(line, "@WEST %s %s", west_path, west_flag);
+
+        //Handling the player's input:
+        bool valid_answer = false;
+        while(!valid_answer)
+        {
+          char* choice = read_input();
+          puts("");
+
+          if(strncmp(choice, "North", 5) == 0 && strncmp(north_path, "NULL", 4) != 0)
+          { file_reader(north_path, north_flag); valid_answer = true; }
+
+          else if(strncmp(choice, "East", 4) == 0 && strncmp(east_path, "NULL", 4) != 0)
+          { file_reader(east_path, east_flag); valid_answer = true; }
+
+          else if(strncmp(choice, "South", 5) == 0 && strncmp(south_path, "NULL", 4) != 0)
+          { file_reader(south_path, south_flag); valid_answer = true; }
+
+          else if(strncmp(choice, "West", 4) == 0 && strncmp(west_path, "NULL", 4) != 0)
+          { file_reader(west_path, west_flag); valid_answer = true; }
+
+          else
+          { printf("Your answer was invalid, please try again.\n\n"); }
+        }
+        break;
       }
 
       //Reading out a normal line
@@ -93,13 +153,4 @@ char* read_input()
     }
   }
   return NULL;  // Return NULL if there's an error
-}
-
-int compare_Strings(char* pStr1, char* pStr2)
-{
-  pStr1[strcspn(pStr1, "\n")] = 0;
-  pStr2[strcspn(pStr2, "\n")] = 0;
-  int result = strcmp(pStr1, pStr2);
-
-  return result;
 }
