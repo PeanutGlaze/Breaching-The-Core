@@ -3,6 +3,10 @@
 
  -- Changelog --
 
+ v.0.3b:
+ Code rearrangement
+ - Outsourced the handling of choices and directions into their own methods to make the file_reader method more readable
+
  v.0.3:
  New features for the file-reader:
  + The file-reader can now jump to other flags without having to make a decision
