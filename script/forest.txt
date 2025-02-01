@@ -7,23 +7,27 @@
 @NO script/village.txt @FLAG1
 
 @FLAG2
-~ You decide to enter the forest ~
-~ You walk slowly, as the ground is quite uneven ~
-~ The bushes beside the path make it hard to leave the path ~
-~ Shortly, you find yourself standing in front of a big tree-stump and branching paths ~
-~ There is a sign on the tree-stump telling the directions ~
-~ One sign points toward west, depicting a butterfly ~
-~ Another points toward east, depicting a skull ~
-~ There is also still the option to turn back south ~
+~ You decide to enter the forest. ~
+~ You walk slowly, as the ground is quite uneven. ~
+~ The bushes beside the path make it hard to leave the path. ~
+~ Shortly, you find yourself standing in front of a big tree-stump and branching paths. ~
+~ There is a sign on the tree-stump telling the directions. ~
+~ One sign points toward west, depicting a butterfly. ~
+~ Another points toward east, depicting a skull. ~
+~ There is also still the option to turn back south. ~
 ~ Choice: (East / South / West) ~
 @DIRECTION
-@NORTH NULL NULL
+@NORTH n/a n/a
 @EAST script/forest.txt @FLAG20
-@SOUTH script/forest.txt @FLAG1
+@SOUTH script/forest.txt @FLAG2-1
 @WEST script/forest.txt @FLAG10
 
+@FLAG2-1
+~ You decide to head back to the point where you initially started, thus leaving the forest. ~
+@JUMP script/forest.txt @FLAG1
+
 @FLAG10
-~ You walked west ~
+~ You walked west, following the sign with the butterfly. ~
 
 @FLAG20
 ~ You walked east ~
