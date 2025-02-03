@@ -3,6 +3,11 @@
 
  -- Changelog --
 
+ v.0.4:
+ New save-function:
+ + Added functions to save and load the game automatically
+ + All includes are now in the header-file
+
  v.0.3b:
  Code rearrangement
  - Outsourced the handling of choices and directions into their own methods to make the file_reader method more readable
