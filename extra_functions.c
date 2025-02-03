@@ -1,14 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
-#include <stdbool.h>
-
 #include "header.h"
 
 void file_reader(const char* path, const char* flag)
 {
-  FILE* file = fopen(path, "r");
+  FILE *file = fopen(path, "r");
   char line[256];
   if(file != NULL)
   {
@@ -19,7 +13,10 @@ void file_reader(const char* path, const char* flag)
       //Skipping lines, as long as the reader hasn't found the flag:
       if(!flag_reached)
       {
-        if (strncmp(line, flag, strlen(flag)) == 0) { flag_reached = true; }
+        if (strncmp(line, flag, strlen(flag)) == 0)
+        { save_game(path, flag); flag_reached = true;  }
+        // ^ Saving the game when the player reaches a new part of the game
+
         continue;
       }
 
@@ -28,7 +25,7 @@ void file_reader(const char* path, const char* flag)
 
       //Stopping the reader if there's another flag detected:
       else if(strncmp(line, "@FLAG", 5) == 0) { break; }
-      // ^ Technically this line should never be used though
+      // ^ Realistically this line will only be reached during testing
 
       //Making the reader jump to another flag
       else if(strncmp(line, "@JUMP", 5) == 0)
@@ -45,8 +42,9 @@ void file_reader(const char* path, const char* flag)
       {
         //Copying the @YES and @NO lines:
         char yes_no_lines[2][128];
-        strcpy(yes_no_lines[0], fgets(line, sizeof(line), file));
-        strcpy(yes_no_lines[1], fgets(line, sizeof(line), file));
+        for(char i = 0; i < 2; i++)
+        { strcpy(yes_no_lines[i], fgets(line, sizeof(line), file)); }
+        // 0 --> Yes || 1 --> No
 
         choice_handler(yes_no_lines);
         break;
@@ -57,10 +55,9 @@ void file_reader(const char* path, const char* flag)
       {
         //Copying the lines including the directions:
         char directions[4][128];
-        strcpy(directions[0], fgets(line, sizeof(line), file));
-        strcpy(directions[1], fgets(line, sizeof(line), file));
-        strcpy(directions[2], fgets(line, sizeof(line), file));
-        strcpy(directions[3], fgets(line, sizeof(line), file));
+        for(char i = 0; i < 4; i++)
+        { strcpy(directions[i], fgets(line, sizeof(line), file)); }
+        // 0 --> North || 1 --> East || 2 --> South || 3 --> West
 
         direction_handler(directions);
         break;
@@ -68,6 +65,7 @@ void file_reader(const char* path, const char* flag)
 
       //Reading out a normal line
       else { printf("%s\n", line); char placeholder = getchar(); }
+      //The getchar(); function is only there to ensure the player presses enter
     }
 
     fclose(file);
@@ -155,7 +153,7 @@ char* read_input()
   printf("Enter your input: ");
   if (fgets(buffer, sizeof(buffer), stdin) != NULL)
   {
-    // Allocate memory for the string <-- too complicated for now
+    // Allocate memory for the string
     size_t length = strlen(buffer);
     char* input = (char*)malloc(length + 1);
     if (input != NULL)

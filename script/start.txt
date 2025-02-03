@@ -8,5 +8,6 @@ K > I can't remember my name, actually, so I guess that makes it fair, right?
 K > Well... How about we start my little game?
 K > You surely wouldn't want to miss out on that, so let's just start!
 K > When you have to make a decision, make sure to watch out for capitalization.
-K > Oh, and one more thing: You can save at (almost) any point by typing 'S'!
+K > Oh, and one more thing:
+K > The game saves automatically, so don't worry about losing your progress!
 @JUMP script/forest.txt @FLAG1
